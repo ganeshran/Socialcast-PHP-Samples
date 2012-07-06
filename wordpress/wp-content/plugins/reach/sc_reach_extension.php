@@ -19,6 +19,8 @@
  * +--------------------------------------------------------------------------+
  *
  * Ganesh Ranganathan - Forked this plugin in an attempt to make it work with WP 3.4.1
+ * Issues Encountered
+ * has_cap is deprected : Using roles and capabilities instead
  */
 
 /**
@@ -128,7 +130,7 @@ function sc_add_discussion($style='width:300px;height:400px') {
 }
 
 function sc_reach_admin_menu() {
-  add_options_page('REACH Plugin Options', 'Socialcast REACH', 8, __FILE__, 'sc_reach_options');
+  add_options_page('REACH Plugin Options', 'Socialcast REACH',  'activate_plugins', __FILE__, 'sc_reach_options');
 }
 
 function sc_reach_options() {
