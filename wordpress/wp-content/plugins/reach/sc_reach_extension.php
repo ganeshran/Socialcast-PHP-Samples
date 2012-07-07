@@ -168,7 +168,7 @@ function sc_reach_options() {
         <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
       </p>
     </form>
-    <iframe width="100%" height="600px" src="https://<?php echo get_option('sc_host'); ?>/tenant_admin/reach_extensions?q=wordpress&plugin=1">
+    <iframe width="100%" height="600px" src="http://developers.socialcast.com/reach/setup-a-reach-extension/">
     </iframe>
   </div>
 
