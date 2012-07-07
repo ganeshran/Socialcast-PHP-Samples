@@ -76,14 +76,48 @@ function get_div($id, $style, $token) {
 	}
 }
 
+/* Name: Ganesh Ranganathan 
+   Date: 7th July 2012
+This function has been added to generate the div from the shortcut
+which can be added to any text widget or in the post itself. It includes
+an additional parameter - display which lets users insert shortcodes without
+knowing the token as long as they are specified in the Plugin options screen.
+Please make sure they are do_shortcode is called in your theme if you want to include 
+this in a widget */
+function get_shortcode_div($id,$style,$token,$display){
+ $tokenInOptions ='';
+  if($display != '')
+  {
+		switch($display)
+		{
+			case 'button':
+				$tokenInOptions=get_option('sc_button_token');
+				break;
+			case 'discussion':
+				$tokenInOptions= get_option('sc_discussion_token');
+				break;
+			case 'profile':
+			    $tokenInOptions = get_option('sc_profile_token');
+				break;
+				
+		}
+		if($tokenInOptions != '')
+		   return get_div($id,$style,$tokenInOptions);
+	
+	
+  }
+  return get_div($id,$style,$token);
+}
+
 function add_reach($atts) {
 	extract( shortcode_atts( array(
 			'id' => 'reach_container_id',
 			'style' => '',
-			'token' => ''
+			'token' => '',
+			'display' => ''
 		), $atts ) );
 
-  return get_div($id, $style, $token);
+  return get_shortcode_div($id, $style, $token,$display);
 }
 
 function reach_init_method() {
@@ -97,7 +131,7 @@ function reach_init_method() {
   add_filter('admin_menu', 'sc_reach_admin_menu');
   
   add_option('sc_host', '');
-  add_option('sc_like_token', '');
+  add_option('sc_button_token', '');
   add_option('sc_discussion_token', '');
   add_option('sc_profile_token', '');
   add_option('sc_use_microdata', 'true');
@@ -115,14 +149,14 @@ function sc_reach_header_meta() {
 
 function sc_reach_register_settings() {
   register_setting('sc_reach', 'sc_host');
-  register_setting('sc_reach', 'sc_like_token');
+  register_setting('sc_reach', 'sc_button_token');
   register_setting('sc_reach', 'sc_discussion_token');
   register_setting('sc_reach', 'sc_profile_token');
   register_setting('sc_reach', 'sc_use_microdata');
 }
 
-function sc_add_like($style='width:300px;height:60px') {
-	return get_div('like_container_id', $style, get_option('sc_like_token'));
+function sc_add_button($style='width:300px;height:60px') {
+	return get_div('like_container_id', $style, get_option('sc_button_token'));
 }
 
 function sc_add_discussion($style='width:300px;height:400px') {
@@ -156,7 +190,7 @@ function sc_reach_options() {
 		<table>
 			<tr><td>https://</td><td><input style="width:400px" type="text" name="sc_host" value="<?php echo get_option('sc_host'); ?>" /></td></tr>
 			<tr><td>Add HTML Microdata ?</td><td><input style="width:400px" type="text" name="sc_use_microdata" value="<?php echo get_option('sc_use_microdata'); ?>" />Type 'true' to use</td></tr>
-			<tr><td>Like Token:</td><td><input style="width:400px" type="text" name="sc_like_token" value="<?php echo get_option('sc_like_token'); ?>" />Function: sc_add_like()</td></tr>
+			<tr><td>Button Token:</td><td><input style="width:400px" type="text" name="sc_button_token" value="<?php echo get_option('sc_button_token'); ?>" />Function: sc_add_button()</td></tr>
 			<tr><td>Discussion Token:</td><td><input style="width:400px" type="text" name="sc_discussion_token" value="<?php echo get_option('sc_discussion_token'); ?>" />Function sc_add_discussion()</td></tr>
             <tr><td>Profile Token:</td><td><input style="width:400px" type="text" name="sc_profile_token" value="<?php echo get_option('sc_profile_token'); ?>" />Function sc_add_author_stream()</td></tr>
 		</table>
