@@ -59,6 +59,7 @@ function get_div_email($email, $id, $style, $token) {
 
 function sc_reach_content_handle($content, $sidebar = false) {
 	
+	if(is_single()){
 	switch(get_option('sc_show_button'))
 	{
 		case 'Dont Show':
@@ -69,6 +70,7 @@ function sc_reach_content_handle($content, $sidebar = false) {
 		case 'Bottom':
 			$content = $content . sc_add_button();
 			break;
+	}
 	}
 	
 	if (get_option('sc_use_microdata') == 'true') {
@@ -136,6 +138,7 @@ function add_reach($atts) {
 
   return get_shortcode_div($id, $style, $token,$display);
 }
+
 
 function reach_init_method() {
 
